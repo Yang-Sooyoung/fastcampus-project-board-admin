@@ -49,6 +49,7 @@ class ArticleManagementServiceTest {
         @DisplayName("게시글 API를 호출하면, 게시글을 가져온다.")
         @Test
         void givenNothing_whenCallingArticleApi_thenReturnsArticleList() {
+
             // Given
 
             // When
@@ -58,6 +59,7 @@ class ArticleManagementServiceTest {
             System.out.println(result.stream().findFirst());
             assertThat(result).isNotNull();
         }
+
     }
 
     @DisplayName("API mocking 테스트")
@@ -68,7 +70,6 @@ class ArticleManagementServiceTest {
     class RestTemplateTest {
 
         private final ArticleManagementService sut;
-
         private final ProjectProperties projectProperties;
         private final MockRestServiceServer server;
         private final ObjectMapper mapper;
@@ -89,6 +90,7 @@ class ArticleManagementServiceTest {
         @DisplayName("게시글 목록 API를 호출하면, 게시글들을 가져온다.")
         @Test
         void givenNothing_whenCallingArticlesApi_thenReturnsArticleList() throws Exception {
+
             // Given
             ArticleDto expectedArticle = createArticleDto("제목", "글");
             ArticleClientResponse expectedResponse = ArticleClientResponse.of(List.of(expectedArticle));
@@ -139,6 +141,7 @@ class ArticleManagementServiceTest {
         @DisplayName("게시글 ID와 함께 게시글 삭제 API을 호출하면, 게시글을 삭제한다.")
         @Test
         void givenArticleId_whenCallingDeleteArticleApi_thenDeletesArticle() throws Exception {
+
             // Given
             Long articleId = 1L;
             server
@@ -152,7 +155,6 @@ class ArticleManagementServiceTest {
             // Then
             server.verify();
         }
-
 
         private ArticleDto createArticleDto(String title, String content) {
             return ArticleDto.of(
@@ -178,5 +180,4 @@ class ArticleManagementServiceTest {
             );
         }
     }
-
 }
