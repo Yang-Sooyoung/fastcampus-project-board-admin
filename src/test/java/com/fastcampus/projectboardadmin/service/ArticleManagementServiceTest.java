@@ -33,7 +33,7 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 @DisplayName("비즈니스 로직 - 게시글 관리")
 class ArticleManagementServiceTest {
 
-    @Disabled("실제 API 호출 결과 관찰용이므로 평상시엔 비활성화")
+    //    @Disabled("실제 API 호출 결과 관찰용이므로 평상시엔 비활성화")
     @DisplayName("실제 API 호출 테스트")
     @SpringBootTest
     @Nested
@@ -48,7 +48,8 @@ class ArticleManagementServiceTest {
 
         @DisplayName("게시글 API를 호출하면, 게시글을 가져온다.")
         @Test
-        void given_when_then() {
+        void givenNothing_whenCallingArticleApi_thenReturnsArticleList() {
+
             // Given
 
             // When
@@ -57,7 +58,6 @@ class ArticleManagementServiceTest {
             // Then
             System.out.println(result.stream().findFirst());
             assertThat(result).isNotNull();
-
         }
 
     }
@@ -89,7 +89,8 @@ class ArticleManagementServiceTest {
 
         @DisplayName("게시글 목록 API를 호출하면, 게시글들을 가져온다.")
         @Test
-        void givenNoting_whenCallingArticlesApi_thenReturnsArticleList() throws Exception {
+        void givenNothing_whenCallingArticlesApi_thenReturnsArticleList() throws Exception {
+
             // Given
             ArticleDto expectedArticle = createArticleDto("제목", "글");
             ArticleClientResponse expectedResponse = ArticleClientResponse.of(List.of(expectedArticle));
@@ -112,17 +113,16 @@ class ArticleManagementServiceTest {
             server.verify();
         }
 
-        @DisplayName("게시글 API를 호출하면, 게시글을 가져온다.")
+        @DisplayName("게시글 ID와 함께 게시글 API을 호출하면, 게시글을 가져온다.")
         @Test
-        void givenNoting_whenCallingArticleApi_thenReturnsArticle() throws Exception {
+        void givenArticleId_whenCallingArticleApi_thenReturnsArticle() throws Exception {
             // Given
             Long articleId = 1L;
-            ArticleDto expectedArticle = createArticleDto("제목", "글");
-            ArticleClientResponse expectedResponse = ArticleClientResponse.of(List.of(expectedArticle));
+            ArticleDto expectedArticle = createArticleDto("게시판", "글");
             server
                     .expect(requestTo(projectProperties.board().url() + "/api/articles/" + articleId))
                     .andRespond(withSuccess(
-                            mapper.writeValueAsString(expectedResponse),
+                            mapper.writeValueAsString(expectedArticle),
                             MediaType.APPLICATION_JSON
                     ));
 
@@ -138,9 +138,10 @@ class ArticleManagementServiceTest {
             server.verify();
         }
 
-        @DisplayName("게시글 ID와 함께 게시글 삭제 API를 호출하면, 게시글을 삭제한다.")
+        @DisplayName("게시글 ID와 함께 게시글 삭제 API을 호출하면, 게시글을 삭제한다.")
         @Test
-        void givenArticleId_whenCallingDeleteArticleApi_thenDeletesAnArticle() throws Exception {
+        void givenArticleId_whenCallingDeleteArticleApi_thenDeletesArticle() throws Exception {
+
             // Given
             Long articleId = 1L;
             server
@@ -171,8 +172,7 @@ class ArticleManagementServiceTest {
 
         private UserAccountDto createUserAccountDto() {
             return UserAccountDto.of(
-                    "UnoTest",
-                    "pw",
+                    "unoTest",
                     Set.of(RoleType.ADMIN),
                     "uno-test@email.com",
                     "uno-test",

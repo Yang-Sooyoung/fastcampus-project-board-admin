@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@DisplayName("View 컨트롤러 - 게시글 관리")
+@DisplayName("컨트롤러 - 게시글 관리")
 @Import(SecurityConfig.class)
 @WebMvcTest(ArticleManagementController.class)
 class ArticleManagementControllerTest {
@@ -50,11 +50,10 @@ class ArticleManagementControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
                 .andExpect(view().name("management/articles"))
-                .andExpect(model().attribute("articles",List.of()));
+                .andExpect(model().attribute("articles", List.of()));
         then(articleManagementService).should().getArticles();
     }
 
-    @WithMockUser(username = "tester", roles = "USER")
     @DisplayName("[data][GET] 게시글 1개 - 정상 호출")
     @Test
     void givenArticleId_whenRequestingArticle_thenReturnsArticle() throws Exception {
@@ -74,7 +73,6 @@ class ArticleManagementControllerTest {
         then(articleManagementService).should().getArticle(articleId);
     }
 
-    @WithMockUser(username = "tester", roles = "MANAGER")
     @DisplayName("[view][POST] 게시글 삭제 - 정상 호출")
     @Test
     void givenArticleId_whenRequestingDeletion_thenRedirectsToArticleManagementView() throws Exception {
@@ -92,7 +90,6 @@ class ArticleManagementControllerTest {
                 .andExpect(redirectedUrl("/management/articles"));
         then(articleManagementService).should().deleteArticle(articleId);
     }
-
     private ArticleDto createArticleDto(String title, String content) {
         return ArticleDto.of(
                 1L,
@@ -110,9 +107,8 @@ class ArticleManagementControllerTest {
     private UserAccountDto createUserAccountDto() {
         return UserAccountDto.of(
                 "unoTest",
-                "pw",
                 Set.of(RoleType.ADMIN),
-                "uno=test@email.com",
+                "uno-test@email.com",
                 "uno-test",
                 "test memo"
         );
