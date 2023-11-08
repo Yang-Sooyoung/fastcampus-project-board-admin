@@ -1,58 +1,58 @@
 package com.fastcampus.projectboardadmin.controller;
 
-import com.fastcampus.projectboardadmin.config.SecurityConfig;
-<<<<<<< Updated upstream
-=======
 import com.fastcampus.projectboardadmin.config.TestSecurityConfig;
-import com.fastcampus.projectboardadmin.domain.constant.RoleType;
 import com.fastcampus.projectboardadmin.dto.ArticleCommentDto;
 import com.fastcampus.projectboardadmin.dto.UserAccountDto;
 import com.fastcampus.projectboardadmin.service.ArticleCommentManagementService;
->>>>>>> Stashed changes
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
+import static org.mockito.BDDMockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-<<<<<<< Updated upstream
-@DisplayName("View 컨트롤러 - 댓글 관리")
-@Import(SecurityConfig.class)
-=======
 @DisplayName("컨트롤러 - 댓글 관리")
 @Import(TestSecurityConfig.class)
->>>>>>> Stashed changes
 @WebMvcTest(ArticleCommentManagementController.class)
 class ArticleCommentManagementControllerTest {
 
     private final MockMvc mvc;
 
+    @MockBean private ArticleCommentManagementService articleCommentManagementService;
+
     public ArticleCommentManagementControllerTest(@Autowired MockMvc mvc) {
         this.mvc = mvc;
     }
 
+    @WithMockUser(username = "tester", roles = "USER")
     @DisplayName("[view][GET] 댓글 관리 페이지 - 정상 호출")
     @Test
     void givenNothing_whenRequestingArticleCommentManagementView_thenReturnsArticleCommentManagementView() throws Exception {
         // Given
+        given(articleCommentManagementService.getArticleComments()).willReturn(List.of());
 
         // When & Then
         mvc.perform(get("/management/article-comments"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
-<<<<<<< Updated upstream
-                .andExpect(view().name("management/articleComments"));
-=======
                 .andExpect(view().name("management/article-comments"))
                 .andExpect(model().attribute("comments", List.of()));
         then(articleCommentManagementService).should().getArticleComments();
     }
 
+    @WithMockUser(username = "tester", roles = "USER")
     @DisplayName("[data][GET] 댓글 1개 - 정상 호출")
     @Test
     void givenCommentId_whenRequestingArticleComment_thenReturnsArticleComment() throws Exception {
@@ -71,6 +71,7 @@ class ArticleCommentManagementControllerTest {
         then(articleCommentManagementService).should().getArticleComment(articleCommentId);
     }
 
+    @WithMockUser(username = "tester", roles = "MANAGER")
     @DisplayName("[view][POST] 댓글 삭제 - 정상 호출")
     @Test
     void givenCommentId_whenRequestingDeletion_thenRedirectsToArticleCommentManagementView() throws Exception {
@@ -111,7 +112,6 @@ class ArticleCommentManagementControllerTest {
                 "uno-test",
                 "test memo"
         );
->>>>>>> Stashed changes
     }
 
 }
