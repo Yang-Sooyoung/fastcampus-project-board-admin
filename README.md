@@ -1,48 +1,103 @@
-# 어드민 서비스 - 패스트캠퍼스, 10개 프로젝트로 완성하는 백엔드 웹개발
+### 📆 FastCampus Project Board Admin
 
-게시판 서비스의 관리 도구를 개발해보는 프로젝트입니다. 2022년 6월 기준 가장 최신의 스프링 부트와 관련 기술들, 자바 17 기능들, 개발 도구들을 경험할 수 있도록 만들어졌습니다.
+> 이 프로젝트는 FastCampus의 게시판 구현 강의 이후 이어지는 고급 과정인 **어드민 게시판** \
+> **확장 강의**를 기반으로, 직접 구현하며 학습한 실습형 클론 프로젝트입니다.  
+> 실무에 가까운 게시판 시스템에 관리자 기능을 확장하며, Spring Security, 사용자 인증/인가, \
+> 운영자/관리자 계정 제어, 대시보드 설계 등 실전 개발 역량을 강화하는 데 목표가 있습니다.
 
-이 서비스는 패스트캠퍼스의 10개 프로젝트로 완성하는 백엔드 웹개발(Java/Spring) 초격차 패키지 Online 강의의 강의용 프로젝트로 사용되었습니다.
+<br/>
 
-## 개발 환경
+### 주요 기능
 
-* Intellij IDEA Ultimate 2022.2.1 ~ 2022.3.3
-* Java 17
-* Gradle 7.4.1
-* Spring Boot 2.7.0
+- **관리자 전용 페이지 구현**
+- 관리자 전용 인증 및 로그인 처리
+- 회원 관리 (조회, 정지 처리 등)
+- 게시글 관리 (게시글 목록/검색/삭제)
+- REST API 기반 백오피스 구성
+- 관리자를 위한 대시보드 View
+- Spring Security 기반 역할(Role) 기반 권한 제어
+- 테스트 및 REST Docs 문서화
 
-## 기술 세부 스택
+<br/>
 
-Spring Boot
+### 기술 스택
 
-* Spring Boot Actuator
-* Spring Data JPA
-* Spring Security OAuth 2 Client
-* Spring Security
-* Thymeleaf
-* Spring Web
-* Spring WebSocket
-* Lombok
-* Spring Boot DevTools
-* H2 Database
-* MySQL Driver
-* Spring Configuration Processor
+| 구분 | 기술 |
+|------|------|
+| Language | Java 17 |
+| Framework | Spring Boot 3.x |
+| ORM | Spring Data JPA, QueryDSL |
+| Database | H2 (개발용), MySQL |
+| Build Tool | Gradle |
+| 인증/보안 | Spring Security |
+| View | Thymeleaf |
+| 문서화 | Spring REST Docs |
+| Test | JUnit 5, Mockito |
+| IDE | IntelliJ IDEA |
 
-그 외
+<br/>
 
-* AdminLTE 3.2
-* webjars-locator-core
-* sockjs-client
-* stomp-websocket
-* Heroku
+### 프로젝트 구조
 
-## 데모 페이지
+```
+src
+├── main
+|   ├── java/com/fastcampus/projectboardadmin
+|   |   ├── config
+|   |   ├── controller
+|   |   ├── domain
+|   |   ├── dto
+|   |   ├── repository
+|   |   └── service
+|   └── resources
+|       ├── static
+|       |   ├── css
+|       |   ├── images
+|       |   └── js
+|       └── templates
+|           ├── admin
+|           ├── layouts
+|           └── management
+└── test/java/com/fastcampus/projectboardadmin
+    ├── config
+    ├── controller
+    ├── dto/security
+    ├── repository
+    └── service
+```
 
-{작성 중}
+<br/>
 
-## 질문, 건의
+### 관리자 권한 관리
 
-프로젝트에 관해 궁금하신 점이나 건의 사항이 있으시다면 아래 항목을 이용해 주세요.
+- 일반 사용자와 관리자 계정을 구분하여 로그인
+- `ROLE_ADMIN`, `ROLE_USER` 등 권한 기반 접근 제어
+- Spring Security의 다중 SecurityConfig를 활용해 `/admin/**` 경로를 분리 관리
+- 관리자 전용 페이지는 로그인 후 접근 가능
 
-* Issues: 버그 리포트, 제안 사항
-* Discussions: 프로젝트와 관련한 논의와 정보
+<br/>
+
+### 데모 페이지
+
+- https://project-board-admin.herokuapp.com/
+  
+<br/>
+
+### 학습 포인트
+
+* Spring Security 다중 설정을 통한 관리자/일반 사용자 인증 분리
+* Thymeleaf와 Spring MVC를 활용한 어드민 UI 구성
+* 게시판 운영 로직의 관리자 제어 방식 이해
+* 도메인/계층 분리를 통한 서비스 아키텍처 확장
+* REST Docs를 통한 API 문서화 경험
+* 보안 강화 및 권한 제어 로직 설계
+
+</br>
+
+#### 🙋‍♀️ 만든 사람
+
+- 👩‍💻 이름: 양수영 (Yang Sooyoung)
+- 🔗 GitHub: [@Yang-Sooyoung](https://github.com/Yang-Sooyoung)
+
+<br/>
+
